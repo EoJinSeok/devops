@@ -1,0 +1,9 @@
+version: "3"
+services:
+    certbot:
+        image: certbot/certbot:latest
+        command: renew --quiet --no-self-upgrade
+        volumes:
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/logs:/var/log/letsencrypt
+            - ./certbot/data:/var/www/certbot

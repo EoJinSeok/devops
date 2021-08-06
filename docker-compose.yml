@@ -1,0 +1,31 @@
+version: "3"
+services:
+    dashboard:
+        container_name: dashboard
+        image: dashboard:latest
+        build:
+            dockerfile: Dockerfile
+            context: ./renew
+        expose:
+            - 8080
+    api-server:
+        container_name: api-server
+        image: api-server:latest
+        build:
+            dockerfile: Dockerfile
+            context: ./spring-boot-api-server
+        expose:
+            - 9009
+    proxy:
+        container_name: nginx_proxy
+        image: nginx_proxy
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ./nginx-proxy
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./certbot/conf:/etc/nginx/ssl
+            - ./certbot/data:/var/www/certbot
